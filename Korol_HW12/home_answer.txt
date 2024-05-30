@@ -1,0 +1,3 @@
+/home/vb/my_project/Test/tms-git/wild_animals/pictures/paw_print.jpg
+/home/vb/my_project/Test/tms-git/wild_animals/pictures/elephant.jpg
+/home/vb/my_project/Test/tms-git/wild_animals/pictures/giraffe.jpg

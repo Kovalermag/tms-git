@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ -z "$@" ]]; then
+    echo "Скрипт запущен без аргументов"
+else
+echo $@ | tr " " "\n" | tee argument.txt
+fi
