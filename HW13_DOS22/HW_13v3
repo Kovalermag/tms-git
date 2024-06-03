@@ -1,0 +1,9 @@
+#!/bin/bash
+find . -maxdepth 1 -type f -iname "*.py" -exec sh -c '
+   echo name file $0
+   hash=$(git log -n 1 --pretty=format:"%h" -- "$0")
+   echo hash $hash
+   mv -i -v "$0" "${0%.py}_$hash.py"
+' {} \;
+
+#mv -iv "$0" "${0%.py}_'$hash'.log"

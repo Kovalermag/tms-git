@@ -1,0 +1,22 @@
+#/bin/bash
+#find . -type f -iname "*.log" -exec mv {} _{timestamp}.log \;
+#timestamp=$(date +%Y%m%d%H%M%S)
+#timestamp=$(date +%s)
+#find . -type f -iname "*.log" -exec sh -c 'mv "$0" "${0%.log}_'"$timestamp"'.log"' {} \;
+#mv -i "$f" "${f%.log}_timestamp.log"
+
+#find . -type f -iname "*_[0-9]\{14\}.log" -exec sh -c 'f="$0"; mv "$f" "${f%_[0-9]\{14\}.log}_'"$timestamp"'.l
+timestamp=$(date +%s)
+
+find . -type f -iname "*.log" -exec sh -c '
+  for f; do
+    newname=$(echo "$f" | sed -E "s/(_[0-9]{10})*\.log$/.log/")
+  if [ "$f" != "$newname" ]; then
+   mv "$f" "$newname"
+  fi
+    mv "$newname" "${newname%.log}_'"$timestamp"'.log"
+  done
+' sh {} +
+
+
+
