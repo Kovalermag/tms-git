@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: Admin
+      POSTGRES_PASSWORD: Admin
+      POSTGRES_DB: Admin_db
+
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+      # Тут Links уже не нужен, докер сам определяет ссылку
