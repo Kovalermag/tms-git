@@ -1,5 +1,3 @@
-# 7156087184:AAEFTag_octMunTyPPFXPoKZTPqPJUqA2SM мой API
-
 import json
 import urllib.request
 import os
@@ -29,6 +27,4 @@ def get_weather(city, token):
 
 if __name__ == "__main__":
     city = "Minsk"
-    # weather_token = "5fc2ed7f68e9666415be2eda46a79a12"
-    # os.getenv("wapi_token") #5fc2ed7f68e9666415be2eda46a79a12
     print(get_weather(city, weather_token))
