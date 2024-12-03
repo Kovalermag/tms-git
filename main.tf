@@ -28,3 +28,4 @@ resource "google_container_cluster" "primary" {
 output "kubeconfig_host" {
   value = google_container_cluster.primary.endpoint
 }
+

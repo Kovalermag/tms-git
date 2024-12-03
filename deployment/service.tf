@@ -20,3 +20,4 @@ resource "kubernetes_service" "example" {
     type = "NodePort"
   }
 }
+

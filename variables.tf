@@ -14,3 +14,4 @@ variable "node_machine_type" {
   type        = string
   default     = "e2-medium"
 }
+

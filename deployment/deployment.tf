@@ -33,3 +33,4 @@ resource "kubernetes_deployment" "example" {
     }
   }
 }
+
