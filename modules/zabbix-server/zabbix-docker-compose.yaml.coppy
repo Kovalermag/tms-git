@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0.40-debian
+    container_name: zabbix-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix_password
+      MYSQL_LOG_BIN_TRUST_FUNCTION_CREATORS: 1
+    # command: ["--log-bin-trust-function-creators=1"]
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--log-bin-trust-function-creators=1"]
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:ubuntu-7.2.1
+    container_name: zabbix-server
+    environment:
+      DB_SERVER_HOST: mysql
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix_password
+    depends_on:
+      - mysql
+    volumes:
+      - zabbix_server_data:/var/lib/zabbix
+    ports:
+      - "10051:10051"
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-7.2.1
+    container_name: zabbix-web
+    environment:
+      DB_SERVER_HOST: mysql
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix_password
+      ZBX_SERVER_HOST: zabbix-server
+    depends_on:
+      - zabbix-server
+    ports:
+      - "8080:8080"
+      - "10050:10050"
+
+volumes:
+  mysql_data:
+  zabbix_server_data:

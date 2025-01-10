@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+  zabbix-agent:
+    image: zabbix/zabbix-agent:7.2.1-ubuntu
+    environment:
+      ZBX_SERVER_HOST: "zabbix-server"
+      ZBX_HOSTNAME: "agent2"
+    networks:
+      - network-zabbix
+    ports:
+      - "10050:10050"
+    restart: unless-stopped
+    depends_on:
+      - zabbix-server
+      - mysql
+
+networks:
+  network-zabbix:
+    driver: bridge
