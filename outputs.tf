@@ -8,8 +8,8 @@ output "agent_ips" {
 
 output "vm_ssh_private_key" {
   description = "private key"
-  value = tls_private_key.ssh_key.private_key_pem
-  sensitive = true
+  value       = tls_private_key.ssh_key.private_key_pem
+  sensitive   = true
 }
 
 # variable "network_name" {

@@ -12,7 +12,7 @@ variable "zone" {
 
 variable "project_id" {
   description = "Google Cloud Project ID"
-  default = "spatial-arcadia-439908-d1"
+  default     = "spatial-arcadia-439908-d1"
   type        = string
 }
 

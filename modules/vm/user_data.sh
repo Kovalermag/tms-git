@@ -47,3 +47,4 @@ systemctl restart nginx || echo "Failed to restart Nginx"
 echo "$(date) - Nginx configured and restarted."
 
 echo "$(date) - Startup script completed successfully."
+

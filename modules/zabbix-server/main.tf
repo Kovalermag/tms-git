@@ -27,14 +27,10 @@ resource "google_compute_instance" "zabbix_server" {
     network    = var.network_name
     subnetwork = var.subnet_name
     
-    access_config {
-      # nat_ip = var.static_ip
-    }
+    access_config {}
   }
 
-  metadata = {
-  ssh-keys = "debian:${file("C:/Users/Mi/.ssh/id_rsa.pub")}"
-}
+  metadata = {ssh-keys = "debian:${file("C:/Users/Mi/.ssh/id_rsa.pub")}"}
 
   connection {
   type        = "ssh"
@@ -51,15 +47,28 @@ resource "google_compute_instance" "zabbix_server" {
 
 # Автоматизация 
   metadata_startup_script = file("${path.module}/user_data.sh")
-}   
+}
+resource "null_resource" "configure_instances" {
+  count = var.vm_count
 
-# resource "tls_private_key" "ssh_key" {
-#   algorithm = "RSA"
-#   rsa_bits  = 4096
-# }
+  triggers = {
+    instance_ids = join(",", google_compute_instance.zabbix_server[*].id)
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "debian"
+      private_key = file("C:/Users/Mi/.ssh/id_rsa")
+      host        = google_compute_instance.zabbix_server[count.index].network_interface[0].access_config[0].nat_ip
+    }
+
+    inline = [
+      "echo '${join(",", google_compute_instance.zabbix_server[*].network_interface[0].access_config[0].nat_ip)}' > /home/debian/ip_list.txt"
+    ]
+  }
+}
 
 output "instance_ip" {
   value = [for instance in google_compute_instance.zabbix_server : instance.network_interface[0].access_config[0].nat_ip]
- # value = [for instance in google_compute_instance.zabbix_agent  : instance.network_interface[0].access_config[0].nat_ip]
 }
-
